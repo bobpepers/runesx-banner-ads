@@ -8,19 +8,18 @@ const isScriptLoaded = (src) => {
 const RunesBannerAd = (props) => {
   const { adZoneId, triggers } = props
   const [rerender, setRerender] = useState(1)
-  useEffect(() => {
-    const s = document.createElement('script')
-    if (!isScriptLoaded) {
+  if (!isScriptLoaded) {
+    useEffect(() => {
+      const s = document.createElement('script')
       setRerender(rerender + 1)
       s.type = 'text/javascript'
       s.src = 'https://www.runesx.com/uploads/runesx.js'
       document.body.appendChild(s)
-    }
-
-    return () => {
-      document.body.removeChild(s)
-    }
-  }, [triggers]) // Only re-run the effect if count changes
+      return () => {
+        document.body.removeChild(s)
+      }
+    }, triggers)
+  }
   return <div id={`runesx-${adZoneId}`} key={rerender} />
 }
 
